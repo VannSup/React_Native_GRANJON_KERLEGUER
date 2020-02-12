@@ -3,16 +3,16 @@ import useMovie from '../domaineMovies/Movie';
 import {Text, View, Image, StyleSheet} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const MoviePage: React.FC = ({id}) => {
-  const {movie, loading} = useMovie(id);
+const MoviePage: React.FC = () => {
+  const {movie, loading} = useMovie('id');
 
   return loading ? (
     <Text>Loading...</Text>
   ) : (
     <View style={styles.item}>
-      <Image style={styles.itemImage} source={{uri: `${movie.image}`}} />
-      <Text style={styles.itemTitle}>{movie.title}</Text>
-      <Text style={styles.itemDescription}>{movie.year}</Text>
+      <Image style={styles.itemImage} source={{uri: `${movie!.image}`}} />
+      <Text style={styles.itemTitle}>{movie!.title}</Text>
+      <Text style={styles.itemDescription}>{movie!.year}</Text>
     </View>
   );
 };

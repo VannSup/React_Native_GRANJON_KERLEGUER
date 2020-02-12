@@ -33,11 +33,10 @@ import {
 declare var global: {HermesInternal: null | {}};
 
 function HomeScreen() {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-    </View>
-  );
+  return <ListMovieView />;
+}
+function DetailScreen() {
+  return <MovieView />;
 }
 
 const Stack = createStackNavigator();
@@ -46,8 +45,8 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={ListMovieView} />
-        <Stack.Screen name="Details" component={MovieView} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Details" component={DetailScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
