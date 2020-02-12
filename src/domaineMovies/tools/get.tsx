@@ -1,0 +1,11 @@
+import { BASE_URL, API_KEY, APPLICATION_ID } from "./const";
+
+export function get<T>(path: string, params: string = "") {
+  return fetch(`${BASE_URL}${path}?${params}`, {
+    headers: {
+      Accept: "application/json",
+      "X-Algolia-Application-Id": APPLICATION_ID,
+      "X-Algolia-API-Key": API_KEY
+    }
+  }).then<T>(res => res.json());
+}
