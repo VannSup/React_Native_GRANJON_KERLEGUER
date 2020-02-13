@@ -29,15 +29,17 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RouteProp} from '@react-navigation/native';
+
+const RootStack = createStackNavigator<RootStackParamList>();
 
 declare var global: {HermesInternal: null | {}};
 
-function HomeScreen() {
-  return <ListMovieView />;
-}
-function DetailScreen() {
-  return <MovieView />;
-}
+type RootStackParamList = {
+  Home: undefined;
+  Detail: {objectId: string};
+};
 
 const Stack = createStackNavigator();
 
@@ -45,8 +47,12 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailScreen} />
+        <Stack.Screen name="Home" component={ListMovieView} />
+        <Stack.Screen
+          name="Details"
+          component={MovieView}
+          initialParams={{objectId: '440069670'}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

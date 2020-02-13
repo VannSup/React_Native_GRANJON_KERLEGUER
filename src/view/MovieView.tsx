@@ -1,21 +1,32 @@
 import * as React from 'react';
 import useMovie from '../domaineMovies/Movie';
-import {Text, View, Image, StyleSheet} from 'react-native';
+import {Text, View, Image, StyleSheet, ActivityIndicator} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const MoviePage: React.FC = () => {
-  const {movie, loading} = useMovie('id');
+export type MovieViewProps = {
+  objectId: string;
+};
+
+const MovieView: React.FC<MovieViewProps> = ({objectId}) => {
+  console.log(objectId);
+  const {movie, loading} = useMovie('440069670');
 
   return loading ? (
-    <Text>Loading...</Text>
+    <ActivityIndicator size="large" color="#0000ff" />
   ) : (
     <View style={styles.item}>
-      <Image style={styles.itemImage} source={{uri: `${movie!.image}`}} />
-      <Text style={styles.itemTitle}>{movie!.title}</Text>
-      <Text style={styles.itemDescription}>{movie!.year}</Text>
+      <Image style={styles.itemImage} source={{uri: `${movie?.image}`}} />
+      <Text style={styles.itemTitle}>{movie?.title}</Text>
+      <Text style={styles.itemDescription}>{movie?.year}</Text>
+      <Text style={styles.itemDescription}>{movie?.genre.join(' / ')}</Text>
     </View>
   );
 };
+
+function getUrlImgAndNameFromActor_Facets(s: string): string[] {
+  let url = s.split('|');
+  return url;
+}
 
 const styles = StyleSheet.create({
   item: {
@@ -41,4 +52,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MoviePage;
+export default MovieView;

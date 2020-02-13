@@ -9,6 +9,8 @@ import {
   Text,
   Image,
   StatusBar,
+  TouchableHighlight,
+  ActivityIndicator,
   FlatList,
 } from 'react-native';
 
@@ -19,28 +21,39 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 
 const ListMovieView: React.FC = () => {
-  const {movies, loading, nbPage} = useMovies(0, 20, '');
+  const {movies, loading, nbPage} = useMovies(10, 10, '');
+  const navigation = useNavigation();
 
   return loading ? (
-    <Text>Loading...</Text>
+    <ActivityIndicator size="large" color="#0000ff" />
   ) : (
     <FlatList
       data={movies}
-      renderItem={({item}) => <Item movie={item} />}
+      renderItem={({item}) => <Item movie={item} navigation={navigation} />}
       keyExtractor={item => item.objectID}
     />
   );
 };
 
-function Item({movie}: {movie: Movie}) {
+function Item({movie, navigation}: {movie: Movie; navigation: any}) {
   return (
-    <View style={styles.item}>
-      <Image style={styles.itemImage} source={{uri: `${movie.image}`}} />
-      <Text style={styles.itemTitle}>{movie.title}</Text>
-      <Text style={styles.itemDescription}>{movie.year}</Text>
-    </View>
+    <TouchableHighlight
+      onPress={() =>
+        navigation.navigate('Details', {
+          objectId: movie.objectID,
+        })
+      }>
+      <View style={styles.item}>
+        <Image style={styles.itemImage} source={{uri: `${movie.image}`}} />
+        <Text style={styles.itemTitle}>{movie.title}</Text>
+        <Text style={styles.itemDescription}>{movie.year}</Text>
+        <Text>{movie.objectID}</Text>
+      </View>
+    </TouchableHighlight>
   );
 }
 

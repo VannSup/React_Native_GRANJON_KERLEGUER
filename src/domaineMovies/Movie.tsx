@@ -12,7 +12,6 @@ const useMovie = (objectId: string) => {
 
     get<Movie>(`/${objectId}`).then(data => {
       if (!cancel) {
-        console.log(data);
         setMovies(data);
         setLoading(false);
       }
