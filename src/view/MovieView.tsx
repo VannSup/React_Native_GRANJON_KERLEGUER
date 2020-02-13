@@ -2,14 +2,18 @@ import * as React from 'react';
 import useMovie from '../domaineMovies/Movie';
 import {Text, View, Image, StyleSheet, ActivityIndicator} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {RouteProp} from '@react-navigation/native';
+import {RootStackParamList} from 'App';
 
-export type MovieViewProps = {
-  objectId: string;
+type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
+
+type MovieViewProps = {
+  route: ProfileScreenRouteProp;
 };
 
-const MovieView: React.FC<MovieViewProps> = ({objectId}) => {
-  console.log(objectId);
-  const {movie, loading} = useMovie('440069670');
+const MovieView: React.FC<MovieViewProps> = ({route}) => {
+  const {objectId} = route.params;
+  const {movie, loading} = useMovie(objectId);
 
   return loading ? (
     <ActivityIndicator size="large" color="#0000ff" />

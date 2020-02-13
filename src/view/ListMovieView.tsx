@@ -2,31 +2,29 @@ import * as React from 'react';
 import useMovies from '../domaineMovies/Movies';
 import {Movie} from 'src/domaineMovies/tools/types';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
   Image,
-  StatusBar,
   TouchableHighlight,
   ActivityIndicator,
   FlatList,
 } from 'react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from 'App';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+type ProfileScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'Home'
+>;
 
-const ListMovieView: React.FC = () => {
-  const {movies, loading, nbPage} = useMovies(10, 10, '');
-  const navigation = useNavigation();
+type ListMovieViewProps = {
+  navigation: ProfileScreenNavigationProp;
+};
+
+const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
+  const {movies, loading, nbPage} = useMovies(0, 999, '');
 
   return loading ? (
     <ActivityIndicator size="large" color="#0000ff" />
@@ -43,7 +41,7 @@ function Item({movie, navigation}: {movie: Movie; navigation: any}) {
   return (
     <TouchableHighlight
       onPress={() =>
-        navigation.navigate('Details', {
+        navigation.push('Detail', {
           objectId: movie.objectID,
         })
       }>

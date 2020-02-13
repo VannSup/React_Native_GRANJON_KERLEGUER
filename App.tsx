@@ -13,46 +13,24 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import ListMovieView from './src/view/ListMovieView';
 import MovieView from './src/view/MovieView';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RouteProp} from '@react-navigation/native';
-
-const RootStack = createStackNavigator<RootStackParamList>();
+import {StyleSheet} from 'react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 declare var global: {HermesInternal: null | {}};
 
-type RootStackParamList = {
+export type RootStackParamList = {
   Home: undefined;
   Detail: {objectId: string};
 };
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={ListMovieView} />
-        <Stack.Screen
-          name="Details"
-          component={MovieView}
-          initialParams={{objectId: '440069670'}}
-        />
+        <Stack.Screen name="Detail" component={MovieView} />
       </Stack.Navigator>
     </NavigationContainer>
   );
