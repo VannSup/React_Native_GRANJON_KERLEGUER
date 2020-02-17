@@ -47,56 +47,41 @@ function Item({movie, navigation}: {movie: Movie; navigation: any}) {
       }>
       <View style={styles.item}>
         <Image style={styles.itemImage} source={{uri: `${movie.image}`}} />
-        <Text style={styles.itemTitle}>{movie.title}</Text>
-        <Text style={styles.itemDescription}>{movie.year}</Text>
-        <Text>{movie.objectID}</Text>
+        <View style={styles.itemText}>
+          <Text style={styles.itemTitle}>{movie.title}</Text>
+          <Text style={styles.itemYear}>{movie.year}</Text>
+        </View>
       </View>
     </TouchableHighlight>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
   item: {
+    flexDirection: 'row',
     borderRadius: 4,
     borderWidth: 0.5,
     borderColor: '#d6d7da',
   },
+  itemImage: {
+    margin: 10,
+    height: 100,
+    width: 50,
+  },
+  itemText: {
+    flexDirection: 'column',
+  },
   itemTitle: {
+    margin: 5,
     fontSize: 24,
     fontWeight: '600',
     color: Colors.black,
   },
-  itemDescription: {
-    marginTop: 8,
+  itemYear: {
+    margin: 5,
     fontSize: 18,
     fontWeight: '400',
     color: Colors.dark,
-  },
-  itemImage: {
-    marginLeft: 0,
-    height: 100,
-    width: 50,
   },
 });
 
