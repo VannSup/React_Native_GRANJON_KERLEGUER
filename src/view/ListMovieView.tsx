@@ -34,6 +34,9 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <SearchBar
+        searchIcon={false}
+        showLoading={false}
+        lightTheme={true}
         placeholder="Search..."
         onChangeText={str => {
           setSearch(str), setPage(0);
@@ -51,17 +54,37 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
       )}
       <View style={styles.fixToText}>
         <Button
+          disabled={page - 10 < 0}
+          title="-10"
+          onPress={() => setPage(page - 10)}
+        />
+        <Button
+          disabled={page - 5 < 0}
+          title="-5"
+          onPress={() => setPage(page - 5)}
+        />
+        <Button
           disabled={page <= 0}
           title="Previous"
           onPress={() => setPage(page - 1)}
         />
         <Text>
-          {page + 1} sur {nbPage}
+          {nbPage <= 0 ? 0 : page + 1} sur {nbPage}
         </Text>
         <Button
           disabled={page >= nbPage - 1}
           title="Next"
           onPress={() => setPage(page + 1)}
+        />
+        <Button
+          disabled={page + 5 > nbPage - 1}
+          title="+5"
+          onPress={() => setPage(page + 5)}
+        />
+        <Button
+          disabled={page + 10 > nbPage - 1}
+          title="+10"
+          onPress={() => setPage(page + 10)}
         />
       </View>
     </SafeAreaView>
