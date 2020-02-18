@@ -13,7 +13,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import ListMovieView from './src/view/ListMovieView';
 import MovieView from './src/view/MovieView';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Image} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 declare var global: {HermesInternal: null | {}};
@@ -25,6 +25,8 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
+//function homeHeader() {}
+
 const App = () => {
   return (
     <NavigationContainer>
@@ -34,7 +36,7 @@ const App = () => {
           component={ListMovieView}
           options={{
             headerStyle: {
-              backgroundColor: '#7541E8',
+              backgroundColor: '#5C5F80',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -47,7 +49,7 @@ const App = () => {
           component={MovieView}
           options={{
             headerStyle: {
-              backgroundColor: '#4E47FF',
+              backgroundColor: '#6B7AFF',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
