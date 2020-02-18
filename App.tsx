@@ -29,8 +29,32 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={ListMovieView} />
-        <Stack.Screen name="Detail" component={MovieView} />
+        <Stack.Screen
+          name="Home"
+          component={ListMovieView}
+          options={{
+            headerStyle: {
+              backgroundColor: '#7541E8',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Detail"
+          component={MovieView}
+          options={{
+            headerStyle: {
+              backgroundColor: '#4E47FF',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
