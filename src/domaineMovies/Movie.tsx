@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {Movie, ApiResult} from './tools/types';
-import {get} from './tools/get';
 
 const useMovie = (objectId: string) => {
   const [movie, setMovies] = React.useState<Movie>();
@@ -23,5 +22,17 @@ const useMovie = (objectId: string) => {
 
   return {movie, loading};
 };
+
+import {BASE_URL, API_KEY, APPLICATION_ID} from './tools/const';
+
+export function get<T>(path: string, params: string = '') {
+  return fetch(`${BASE_URL}${path}?${params}`, {
+    headers: {
+      Accept: 'application/json',
+      'X-Algolia-Application-Id': APPLICATION_ID,
+      'X-Algolia-API-Key': API_KEY,
+    },
+  }).then<T>(res => res.json());
+}
 
 export default useMovie;

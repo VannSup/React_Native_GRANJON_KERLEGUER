@@ -2,10 +2,10 @@ import * as React from 'react';
 import {Movie, ApiResult} from './tools/types';
 import {get} from './tools/get';
 
-const getMovies = (page = 1, hitsPerPage = 20, query = '') =>
-  get<ApiResult>('/query', {page, hitsPerPage, query});
+const getMovies = (page = 1, hitsPerPage = 20, facetFilters: string[] = []) =>
+  get<ApiResult>('/query', {page, hitsPerPage, facetFilters});
 
-const useMovies = (page: number, limit: number, query: string) => {
+const useMoviesByActor = (page: number, limit: number, actor: string) => {
   const [movies, setMovies] = React.useState<Movie[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [nbPage, setNbPage] = React.useState(0);
@@ -14,8 +14,9 @@ const useMovies = (page: number, limit: number, query: string) => {
     let cancel = false;
     setLoading(true);
 
-    getMovies(page, limit, query).then(data => {
+    getMovies(page, limit, [`actors:${actor}`]).then(data => {
       if (!cancel) {
+        console.log(data);
         setMovies(data.hits);
         setLoading(false);
         setNbPage(data.nbPages);
@@ -24,9 +25,9 @@ const useMovies = (page: number, limit: number, query: string) => {
     return () => {
       cancel = true;
     };
-  }, [query, page]);
+  }, [page]);
 
   return {movies, loading, nbPage};
 };
 
-export default useMovies;
+export default useMoviesByActor;

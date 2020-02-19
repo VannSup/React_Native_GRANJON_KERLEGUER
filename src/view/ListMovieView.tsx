@@ -16,6 +16,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from 'App';
 import {SearchBar} from 'react-native-elements';
+import useMoviesByActor from '../domaineMovies/MoviesByActor';
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
