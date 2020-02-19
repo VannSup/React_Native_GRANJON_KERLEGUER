@@ -16,7 +16,6 @@ const useMoviesByActor = (page: number, limit: number, actor: string) => {
 
     getMovies(page, limit, [`actors:${actor}`]).then(data => {
       if (!cancel) {
-        console.log(data);
         setMovies(data.hits);
         setLoading(false);
         setNbPage(data.nbPages);

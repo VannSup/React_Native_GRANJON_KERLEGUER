@@ -1,6 +1,5 @@
 import * as React from 'react';
-import useMovies from '../domaineMovies/Movies';
-import {Movie} from 'src/domaineMovies/tools/types';
+import {Movie} from '../domaineMovies/tools/types';
 import {
   StyleSheet,
   View,
@@ -11,57 +10,75 @@ import {
   FlatList,
   Button,
   SafeAreaView,
-  ToastAndroid,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from 'App';
-import {SearchBar} from 'react-native-elements';
+import useMoviesByActor from '../domaineMovies/MoviesByActor';
 
+type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Actor'>;
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'Movies'
+  'Actor'
 >;
 
-type ListMovieViewProps = {
+type MovieViewProps = {
+  route: ProfileScreenRouteProp;
   navigation: ProfileScreenNavigationProp;
 };
 
-const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
-  const [search, setSearch] = React.useState('');
+const ActorView: React.FC<MovieViewProps> = ({route, navigation}) => {
+  const {actorName} = route.params;
   const [page, setPage] = React.useState(0);
-  const {movies, loading, nbPage} = useMovies(page, 10, search);
+  const {movies, loading, nbPage} = useMoviesByActor(page, 10, actorName);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <SearchBar
-          searchIcon={false}
-          showLoading={false}
-          lightTheme={true}
-          placeholder="Search..."
-          onChangeText={str => {
-            setSearch(str), setPage(0);
-          }}
-          value={search}
-        />
-        <Text style={{textAlign: 'center'}}>
-          {nbPage <= 0 ? 0 : page} sur {nbPage}
-        </Text>
-      </View>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <FlatList
-          onEndReached={() => {
-            setPage(page + 1);
-          }}
-          onEndReachedThreshold={0.1}
           data={movies}
           renderItem={({item}) => <Item movie={item} navigation={navigation} />}
           keyExtractor={item => item.objectID}
         />
       )}
+      <View style={styles.fixToText}>
+        <Button
+          disabled={page - 10 < 0}
+          title="-10"
+          onPress={() => setPage(page - 10)}
+        />
+        <Button
+          disabled={page - 5 < 0}
+          title="-5"
+          onPress={() => setPage(page - 5)}
+        />
+        <Button
+          disabled={page <= 0}
+          title="Previous"
+          onPress={() => setPage(page - 1)}
+        />
+        <Text>
+          {nbPage <= 0 ? 0 : page + 1} sur {nbPage}
+        </Text>
+        <Button
+          disabled={page >= nbPage - 1}
+          title="Next"
+          onPress={() => setPage(page + 1)}
+        />
+        <Button
+          disabled={page + 5 > nbPage - 1}
+          title="+5"
+          onPress={() => setPage(page + 5)}
+        />
+        <Button
+          disabled={page + 10 > nbPage - 1}
+          title="+10"
+          onPress={() => setPage(page + 10)}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -70,7 +87,7 @@ function Item({movie, navigation}: {movie: Movie; navigation: any}) {
   return (
     <TouchableHighlight
       onPress={() =>
-        navigation.push('Movie', {
+        navigation.push('Movies', {
           objectId: movie.objectID,
         })
       }>
@@ -115,6 +132,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  fixToText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 20,
+    marginRight: 20,
+  },
 });
 
-export default ListMovieView;
+export default ActorView;

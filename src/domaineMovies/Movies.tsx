@@ -16,7 +16,7 @@ const useMovies = (page: number, limit: number, query: string) => {
 
     getMovies(page, limit, query).then(data => {
       if (!cancel) {
-        setMovies(data.hits);
+        setMovies(movies?.concat(data.hits));
         setLoading(false);
         setNbPage(data.nbPages);
       }
