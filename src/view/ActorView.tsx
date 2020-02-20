@@ -1,6 +1,6 @@
 import * as React from 'react';
-import MovieItemList from '../domaineMovies/component/MovieItemList';
-import NavButton from '../domaineMovies/component/NavButton';
+import MovieItemList from '../component/MovieItemList';
+import NavButton from '../component/NavButton';
 import useMoviesByActor from '../domaineMovies/MoviesByActor';
 import {
   StyleSheet,

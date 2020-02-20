@@ -1,5 +1,6 @@
 import * as React from 'react';
 import useMovies from '../domaineMovies/Movies';
+import MovieItemList from '../component/MovieItemList';
 import {
   StyleSheet,
   View,
@@ -11,7 +12,6 @@ import {
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from 'App';
 import {SearchBar} from 'react-native-elements';
-import MovieItemList from '../domaineMovies/component/MovieItemList';
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,

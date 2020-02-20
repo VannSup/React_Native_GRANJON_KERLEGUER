@@ -1,6 +1,6 @@
 import * as React from 'react';
 import useMovie from '../domaineMovies/Movie';
-import ActorItemList from '../domaineMovies/component/ActorItemList';
+import ActorItemList from '../component/ActorItemList';
 import {
   Text,
   Image,
