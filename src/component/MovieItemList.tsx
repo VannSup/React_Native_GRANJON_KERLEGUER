@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Movie} from 'src/domaineMovies/tools/types';
+import {Movie} from '../domaineMovies/tools/types';
 import {StyleSheet, View, Text, Image, TouchableHighlight} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
