@@ -1,21 +1,19 @@
 import * as React from 'react';
-import {Movie} from '../domaineMovies/tools/types';
+import MovieItemList from '../domaineMovies/component/MovieItemList';
+import NavButton from '../domaineMovies/component/NavButton';
+import useMoviesByActor from '../domaineMovies/MoviesByActor';
 import {
   StyleSheet,
-  View,
   Text,
-  Image,
-  TouchableHighlight,
   ActivityIndicator,
   FlatList,
-  Button,
   SafeAreaView,
+  Button,
+  Linking,
 } from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from 'App';
-import useMoviesByActor from '../domaineMovies/MoviesByActor';
 
 type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Actor'>;
 type ProfileScreenNavigationProp = StackNavigationProp<
@@ -35,108 +33,34 @@ const ActorView: React.FC<MovieViewProps> = ({route, navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={{textAlign: 'center'}}>
+        {nbPage <= 0 ? 0 : page} sur {nbPage}
+      </Text>
+      <Button
+        title={actorName}
+        onPress={() =>
+          Linking.openURL('https://www.google.com/search?q=' + actorName)
+        }
+      />
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <FlatList
           data={movies}
-          renderItem={({item}) => <Item movie={item} navigation={navigation} />}
+          renderItem={({item}) => (
+            <MovieItemList movie={item} navigation={navigation} />
+          )}
           keyExtractor={item => item.objectID}
         />
       )}
-      <View style={styles.fixToText}>
-        <Button
-          disabled={page - 10 < 0}
-          title="-10"
-          onPress={() => setPage(page - 10)}
-        />
-        <Button
-          disabled={page - 5 < 0}
-          title="-5"
-          onPress={() => setPage(page - 5)}
-        />
-        <Button
-          disabled={page <= 0}
-          title="Previous"
-          onPress={() => setPage(page - 1)}
-        />
-        <Text>
-          {nbPage <= 0 ? 0 : page + 1} sur {nbPage}
-        </Text>
-        <Button
-          disabled={page >= nbPage - 1}
-          title="Next"
-          onPress={() => setPage(page + 1)}
-        />
-        <Button
-          disabled={page + 5 > nbPage - 1}
-          title="+5"
-          onPress={() => setPage(page + 5)}
-        />
-        <Button
-          disabled={page + 10 > nbPage - 1}
-          title="+10"
-          onPress={() => setPage(page + 10)}
-        />
-      </View>
+      <NavButton page={page} nbPage={nbPage} setPage={setPage} />
     </SafeAreaView>
   );
 };
 
-function Item({movie, navigation}: {movie: Movie; navigation: any}) {
-  return (
-    <TouchableHighlight
-      onPress={() =>
-        navigation.push('Movies', {
-          objectId: movie.objectID,
-        })
-      }>
-      <View style={styles.item}>
-        <Image style={styles.itemImage} source={{uri: `${movie.image}`}} />
-        <View style={styles.itemText}>
-          <Text style={styles.itemTitle}>{movie.title}</Text>
-          <Text style={styles.itemYear}>{movie.year}</Text>
-        </View>
-      </View>
-    </TouchableHighlight>
-  );
-}
-
 const styles = StyleSheet.create({
-  item: {
-    flexDirection: 'row',
-    borderRadius: 4,
-    borderWidth: 0.5,
-    borderColor: '#d6d7da',
-  },
-  itemImage: {
-    margin: 10,
-    height: 100,
-    width: 50,
-  },
-  itemText: {
-    flexDirection: 'column',
-  },
-  itemTitle: {
-    margin: 5,
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  itemYear: {
-    margin: 5,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
   container: {
     flex: 1,
-  },
-  fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: 20,
-    marginRight: 20,
   },
 });
 
