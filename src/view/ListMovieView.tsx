@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   FlatList,
   SafeAreaView,
+  ToastAndroid,
 } from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from 'App';
@@ -23,9 +24,21 @@ type ListMovieViewProps = {
 };
 
 const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
+  //#region Initialisation Api
+  //Element de la recherche.
   const [search, setSearch] = React.useState('');
+  //Page actuel.
   const [page, setPage] = React.useState(0);
-  const {movies, loading, nbPage} = useMovies(page, 10, search);
+  //Nombre d'élement charger a la fois.
+  const [hitsPerPage, setHitsPerPage] = React.useState(10);
+  //Appel api
+  const {movies, loading, nbPage} = useMovies(
+    page,
+    hitsPerPage,
+    search,
+    setPage,
+  );
+  //#endregion
 
   return (
     <SafeAreaView style={styles.container}>
@@ -36,7 +49,7 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
           lightTheme={true}
           placeholder="Search..."
           onChangeText={str => {
-            setSearch(str), setPage(0);
+            setSearch(str); // Met a jours la recherche (cause un appel api)
           }}
           value={search}
         />
@@ -48,10 +61,14 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={true}
           onEndReached={() => {
-            setPage(page + 1);
+            page < nbPage
+              ? setPage(page + 1) // Met a jours la page (cause un appel api)
+              : ToastAndroid.show('Fin', ToastAndroid.SHORT);
           }}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.01}
           data={movies}
           renderItem={({item}) => (
             <MovieItemList movie={item} navigation={navigation} />

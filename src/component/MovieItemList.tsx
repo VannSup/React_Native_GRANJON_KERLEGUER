@@ -4,8 +4,8 @@ import {StyleSheet, View, Text, Image, TouchableHighlight} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 type MovieItemListProps = {
-  navigation: any;
   movie: Movie;
+  navigation: any;
 };
 
 const MovieItemList: React.FC<MovieItemListProps> = ({movie, navigation}) => {
@@ -18,10 +18,12 @@ const MovieItemList: React.FC<MovieItemListProps> = ({movie, navigation}) => {
       }>
       <View style={styles.item}>
         <Image style={styles.itemImage} source={{uri: `${movie.image}`}} />
-        <View style={styles.itemText}>
-          <Text style={styles.itemTitle}>{movie.title}</Text>
-          <Text style={styles.itemYear}>{movie.year}</Text>
-        </View>
+        {
+          <View style={styles.itemText}>
+            <Text style={styles.itemTitle}>{movie.title}</Text>
+            <Text style={styles.itemYear}>{movie.year}</Text>
+          </View>
+        }
       </View>
     </TouchableHighlight>
   );
@@ -29,18 +31,19 @@ const MovieItemList: React.FC<MovieItemListProps> = ({movie, navigation}) => {
 
 const styles = StyleSheet.create({
   item: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     borderRadius: 4,
     borderWidth: 0.5,
     borderColor: '#d6d7da',
   },
   itemImage: {
     margin: 10,
-    height: 100,
-    width: 50,
+    height: 400,
+    width: 200,
   },
   itemText: {
     flexDirection: 'column',
+    width: 200,
   },
   itemTitle: {
     margin: 5,
