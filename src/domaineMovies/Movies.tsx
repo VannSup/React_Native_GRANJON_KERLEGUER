@@ -12,31 +12,20 @@ const useMovies = (
   setPage: React.Dispatch<React.SetStateAction<number>>,
 ) => {
   const [movies, setMovies] = React.useState<Movie[]>([]);
+  const [firstLoading, setFirstLoading] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [nbPage, setNbPage] = React.useState(0);
 
+  //#region Si la recherche est modifier on charge le premiere jeux de donnée
   React.useEffect(() => {
-    let newMovies: Movie[] = [];
-    setMovies(newMovies);
-    //#region
-    console.log(
-      'Ligne 22 fichier src/domaineMovies/Movies.tsx' +
-        '\n Recherche : ' +
-        query +
-        '\n Varriable : ' +
-        newMovies.map(movie => '\n' + movie.title) +
-        '\n Ancienne varriable : ' +
-        movies.map(movie => '\n' + movie.title),
-    );
-    //#endregion
+    setMovies([]);
     setPage(0);
     let cancel = false;
-    setLoading(true);
-
+    setFirstLoading(true);
     getMovies(page, limit, query).then(data => {
       if (!cancel) {
         setMovies(data.hits);
-        setLoading(false);
+        setFirstLoading(false);
         setNbPage(data.nbPages);
       }
     });
@@ -44,7 +33,9 @@ const useMovies = (
       cancel = true;
     };
   }, [query]);
+  //#endregion
 
+  //#region Si on demande a load plus de donnée (modification de page)
   React.useEffect(() => {
     let cancel = false;
     setLoading(true);
@@ -54,23 +45,15 @@ const useMovies = (
         setMovies(movies.concat(data.hits));
         setLoading(false);
         setNbPage(data.nbPages);
-        //#region
-        console.log(
-          'Ligne 40 fichier src/domaineMovies/Movies.tsx' +
-            '\n Recherche : ' +
-            query +
-            '\n Film present : ' +
-            movies.map(movie => '\n' + movie.title),
-        );
-        //#endregion
       }
     });
     return () => {
       cancel = true;
     };
   }, [page]);
+  //#endregion
 
-  return {movies, loading, nbPage};
+  return {movies, nbPage, loading, firstLoading};
 };
 
 export default useMovies;

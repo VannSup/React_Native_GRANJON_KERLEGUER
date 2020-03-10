@@ -9,6 +9,7 @@ import {
   FlatList,
   SafeAreaView,
   ToastAndroid,
+  Button,
 } from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from 'App';
@@ -30,9 +31,9 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
   //Page actuel.
   const [page, setPage] = React.useState(0);
   //Nombre d'élement charger a la fois.
-  const [hitsPerPage, setHitsPerPage] = React.useState(10);
+  const [hitsPerPage, setHitsPerPage] = React.useState(5);
   //Appel api
-  const {movies, loading, nbPage} = useMovies(
+  const {movies, nbPage, loading, firstLoading} = useMovies(
     page,
     hitsPerPage,
     search,
@@ -57,8 +58,10 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
           {nbPage <= 0 ? 0 : page} sur {nbPage}
         </Text>
       </View>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+      {firstLoading ? (
+        <View style={[styles.activityIndicator, styles.horizontal]}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
       ) : (
         <FlatList
           horizontal
@@ -68,12 +71,21 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
               ? setPage(page + 1) // Met a jours la page (cause un appel api)
               : ToastAndroid.show('Fin', ToastAndroid.SHORT);
           }}
-          onEndReachedThreshold={0.01}
+          onEndReachedThreshold={0.1}
           data={movies}
           renderItem={({item}) => (
             <MovieItemList movie={item} navigation={navigation} />
           )}
           keyExtractor={item => item.objectID}
+          ListFooterComponent={
+            loading ? (
+              <View style={[styles.activityIndicator, styles.horizontal]}>
+                <ActivityIndicator size="large" color="#0000ff" />
+              </View>
+            ) : (
+              <View />
+            )
+          }
         />
       )}
     </SafeAreaView>
@@ -83,6 +95,15 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
   },
 });
 

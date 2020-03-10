@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Movie} from './tools/types';
+import {getMovie} from './tools/get';
 import {BASE_URL, API_KEY, APPLICATION_ID} from './tools/const';
 
 const useMovie = (objectId: string) => {
@@ -10,7 +11,7 @@ const useMovie = (objectId: string) => {
     let cancel = false;
     setLoading(true);
 
-    get<Movie>(`/${objectId}`).then(data => {
+    getMovie<Movie>(`/${objectId}`).then(data => {
       if (!cancel) {
         setMovies(data);
         setLoading(false);
@@ -23,15 +24,5 @@ const useMovie = (objectId: string) => {
 
   return {movie, loading};
 };
-
-function get<T>(path: string, params: string = '') {
-  return fetch(`${BASE_URL}${path}?${params}`, {
-    headers: {
-      Accept: 'application/json',
-      'X-Algolia-Application-Id': APPLICATION_ID,
-      'X-Algolia-API-Key': API_KEY,
-    },
-  }).then<T>(res => res.json());
-}
 
 export default useMovie;

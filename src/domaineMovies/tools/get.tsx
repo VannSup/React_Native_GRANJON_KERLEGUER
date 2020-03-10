@@ -11,3 +11,13 @@ export function get<T>(path: string, params: Record<string, any>) {
     body: JSON.stringify(params),
   }).then<T>(res => res.json());
 }
+
+export function getMovie<T>(path: string, params: string = '') {
+  return fetch(`${BASE_URL}${path}?${params}`, {
+    headers: {
+      Accept: 'application/json',
+      'X-Algolia-Application-Id': APPLICATION_ID,
+      'X-Algolia-API-Key': API_KEY,
+    },
+  }).then<T>(res => res.json());
+}
