@@ -64,19 +64,26 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
         </View>
       ) : (
         <FlatList
+          //#region mode horizontal
           horizontal
-          showsHorizontalScrollIndicator={true}
+          showsHorizontalScrollIndicator={false}
+          //#endregion
+          //#region load more data
           onEndReached={() => {
             page < nbPage
               ? setPage(page + 1) // Met a jours la page (cause un appel api)
               : ToastAndroid.show('Fin', ToastAndroid.SHORT);
           }}
           onEndReachedThreshold={0.1}
+          //#endregion
+          //#region item
           data={movies}
           renderItem={({item}) => (
             <MovieItemList movie={item} navigation={navigation} />
           )}
           keyExtractor={item => item.objectID}
+          //#endregion
+          //#region dernier element
           ListFooterComponent={
             loading ? (
               <View style={[styles.activityIndicator, styles.horizontal]}>
@@ -86,6 +93,7 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
               <View />
             )
           }
+          //#endregion
         />
       )}
     </SafeAreaView>
