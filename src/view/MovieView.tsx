@@ -36,6 +36,7 @@ const MovieView: React.FC<MovieViewProps> = ({route, navigation}) => {
   ) : (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
+        style={styles.imageContainer}
         onPress={() =>
           Linking.openURL('https://www.google.com/search?q=' + movie?.title)
         }>
@@ -72,6 +73,9 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     height: 400,
     width: 200,
+  },
+  imageContainer: {
+    alignItems: 'center',
   },
   container: {
     flex: 1,
