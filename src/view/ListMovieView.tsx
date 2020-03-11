@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   ToastAndroid,
   Button,
+  ImageBackground,
 } from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from 'App';
@@ -43,7 +44,9 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      <ImageBackground
+        source={require('../img/background.jpg')}
+        style={styles.background}>
         <SearchBar
           searchIcon={false}
           showLoading={false}
@@ -57,7 +60,7 @@ const ListMovieView: React.FC<ListMovieViewProps> = ({navigation}) => {
         <Text style={{textAlign: 'center'}}>
           {nbPage <= 0 ? 0 : page} sur {nbPage}
         </Text>
-      </View>
+      </ImageBackground>
       {firstLoading ? (
         <View style={[styles.activityIndicator, styles.horizontal]}>
           <ActivityIndicator size="large" color="#0000ff" />
@@ -112,6 +115,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
+  },
+  background: {
+    flex: 1,
   },
 });
 

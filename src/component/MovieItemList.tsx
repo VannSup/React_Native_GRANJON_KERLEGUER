@@ -11,6 +11,7 @@ type MovieItemListProps = {
 const MovieItemList: React.FC<MovieItemListProps> = ({movie, navigation}) => {
   return (
     <TouchableHighlight
+      style={styles.touchableHighlight}
       onPress={() =>
         navigation.push('Movie', {
           objectId: movie.objectID,
@@ -35,6 +36,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 0.5,
     borderColor: '#d6d7da',
+    backgroundColor: 'green',
+    margin: 10,
   },
   itemImage: {
     margin: 10,
@@ -56,6 +59,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
     color: Colors.dark,
+  },
+  touchableHighlight: {
+    height: 600,
   },
 });
 
