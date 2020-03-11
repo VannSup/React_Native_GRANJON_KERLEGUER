@@ -8,11 +8,13 @@ import {
   ActivityIndicator,
   FlatList,
   SafeAreaView,
+  Linking,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from 'App';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Movie'>;
 type ProfileScreenNavigationProp = StackNavigationProp<
@@ -33,7 +35,12 @@ const MovieView: React.FC<MovieViewProps> = ({route, navigation}) => {
     <ActivityIndicator size="large" color="#0000ff" />
   ) : (
     <SafeAreaView style={styles.container}>
-      <Image style={styles.image} source={{uri: `${movie?.image}`}} />
+      <TouchableOpacity
+        onPress={() =>
+          Linking.openURL('https://www.google.com/search?q=' + movie?.title)
+        }>
+        <Image style={styles.image} source={{uri: `${movie?.image}`}} />
+      </TouchableOpacity>
       <Text style={styles.title}>{movie?.title}</Text>
       <Text style={styles.description}>{movie?.year}</Text>
       <Text style={styles.description}>{movie?.genre.join(' / ')}</Text>
@@ -63,8 +70,8 @@ const styles = StyleSheet.create({
   },
   image: {
     marginLeft: 0,
-    height: 100,
-    width: 50,
+    height: 400,
+    width: 200,
   },
   container: {
     flex: 1,
