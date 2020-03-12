@@ -10,6 +10,7 @@ const useMovies = (
   limit: number,
   query: string,
   setPage: React.Dispatch<React.SetStateAction<number>>,
+  alea: boolean,
 ) => {
   const [movies, setMovies] = React.useState<Movie[]>([]);
   const [firstLoading, setFirstLoading] = React.useState(false);
@@ -51,6 +52,25 @@ const useMovies = (
       cancel = true;
     };
   }, [page]);
+  //#endregion
+
+  //#region Film Aléa
+  React.useEffect(() => {
+    let cancel = false;
+    setFirstLoading(true);
+    let nbAle = Math.floor(Math.random() * nbPage);
+
+    getMovies(nbAle, limit, '').then(data => {
+      if (!cancel) {
+        setMovies(data.hits);
+        setFirstLoading(false);
+        setNbPage(data.nbPages);
+      }
+    });
+    return () => {
+      cancel = true;
+    };
+  }, [alea]);
   //#endregion
 
   return {movies, nbPage, loading, firstLoading};

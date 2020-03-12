@@ -20,7 +20,7 @@ declare var global: {HermesInternal: null | {}};
 export type RootStackParamList = {
   Movies: undefined;
   Movie: {objectId: string};
-  Actor: {actorName: string};
+  Actor: {actorFacets: string; actorName: string};
 };
 
 const Stack = createStackNavigator<RootStackParamList>();

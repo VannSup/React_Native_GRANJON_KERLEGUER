@@ -11,7 +11,6 @@ type MovieItemListProps = {
 const MovieItemList: React.FC<MovieItemListProps> = ({movie, navigation}) => {
   return (
     <TouchableHighlight
-      style={styles.touchableHighlight}
       onPress={() =>
         navigation.push('Movie', {
           objectId: movie.objectID,
@@ -19,12 +18,9 @@ const MovieItemList: React.FC<MovieItemListProps> = ({movie, navigation}) => {
       }>
       <View style={styles.item}>
         <Image style={styles.itemImage} source={{uri: `${movie.image}`}} />
-        {
-          <View style={styles.itemText}>
-            <Text style={styles.itemTitle}>{movie.title}</Text>
-            <Text style={styles.itemYear}>{movie.year}</Text>
-          </View>
-        }
+        <Text style={styles.movieItemTitle} numberOfLines={1}>
+          {movie.title}
+        </Text>
       </View>
     </TouchableHighlight>
   );
@@ -34,34 +30,20 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: 'column',
     borderRadius: 4,
-    borderWidth: 0.5,
-    borderColor: '#d6d7da',
-    backgroundColor: 'green',
-    margin: 10,
+    backgroundColor: 'rgba( 50, 50, 50, 0.9)',
+    margin: 20,
   },
   itemImage: {
-    margin: 10,
+    margin: 5,
     height: 400,
     width: 200,
   },
-  itemText: {
-    flexDirection: 'column',
+  movieItemTitle: {
+    margin: 5,
+    height: 35,
     width: 200,
-  },
-  itemTitle: {
-    margin: 5,
     fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  itemYear: {
-    margin: 5,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  touchableHighlight: {
-    height: 600,
+    color: Colors.white,
   },
 });
 

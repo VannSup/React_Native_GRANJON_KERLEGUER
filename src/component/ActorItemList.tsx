@@ -13,6 +13,7 @@ const ActorItemList: React.FC<ActorItemListProps> = ({actor, navigation}) => {
     <TouchableHighlight
       onPress={() =>
         navigation.push('Actor', {
+          actorFacets: actor_Facets_Name[0],
           actorName: actor_Facets_Name[1],
         })
       }>
