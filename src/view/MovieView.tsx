@@ -9,6 +9,7 @@ import {
   FlatList,
   SafeAreaView,
   Linking,
+  View,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {RouteProp} from '@react-navigation/native';
@@ -35,17 +36,53 @@ const MovieView: React.FC<MovieViewProps> = ({route, navigation}) => {
     <ActivityIndicator size="large" color="#0000ff" />
   ) : (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity
-        style={styles.imageContainer}
-        onPress={() =>
-          Linking.openURL('https://www.google.com/search?q=' + movie?.title)
-        }>
-        <Image style={styles.image} source={{uri: `${movie?.image}`}} />
-      </TouchableOpacity>
-      <Text style={styles.title}>{movie?.title}</Text>
-      <Text style={styles.description}>{movie?.year}</Text>
-      <Text style={styles.description}>{movie?.genre.join(' / ')}</Text>
-
+      <View
+        style={{
+          flexDirection: 'column',
+          paddingHorizontal: '3%',
+          paddingBottom: '3%',
+          backgroundColor: Colors.dark,
+        }}>
+        <Text
+          style={{
+            fontSize: 27,
+            color: Colors.white,
+            textAlign: 'center',
+            padding: '5%',
+            fontWeight: 'bold',
+          }}>
+          {movie?.title}
+        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            style={styles.imageContainer}
+            onPress={() =>
+              Linking.openURL('https://www.google.com/search?q=' + movie?.title)
+            }>
+            <Image style={styles.image} source={{uri: `${movie?.image}`}} />
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'column',
+              padding: '3%',
+              width: 200,
+            }}>
+            <Text style={{fontSize: 20, color: Colors.white, padding: '3%'}}>
+              Date de parution : {movie?.year}
+            </Text>
+            <Text style={{fontSize: 20, color: Colors.white, padding: '3%'}}>
+              Genre : {movie?.genre.join(' / ')}
+            </Text>
+            <Text style={{fontSize: 20, color: Colors.white, padding: '3%'}}>
+              Note : {movie?.score.toPrecision(2)}
+            </Text>
+            <Text style={{fontSize: 20, color: Colors.white, padding: '3%'}}>
+              Description : Sed querebatur, quod omnibus in rebus homines
+              diligentiores essent.
+            </Text>
+          </View>
+        </View>
+      </View>
       <FlatList
         data={movie?.actor_facets}
         renderItem={({item}) => (
@@ -58,11 +95,6 @@ const MovieView: React.FC<MovieViewProps> = ({route, navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
   description: {
     marginTop: 8,
     fontSize: 18,
